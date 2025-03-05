@@ -1,7 +1,7 @@
 ---
 layout: post
 title:  "Notes : Dynamo DB Paper by Amazon"
-date:   2025-03-04 11:26:31 +0530
+date:   2025-03-05 11:26:31 +0530
 categories: papers
 ---
 
@@ -32,7 +32,7 @@ This is a simple KV store. Two operations :
     This call returns all the current versions of the object that exist in the system with a context. The context here is opaque to the caller but is very useful for further calls to dynamo DB. For one, context holds encoded information about version history. It can also be used to enable a sort of sticky session.
 2. put(key, context, object)
 
-The Dynamo DB API is accessible over HTTP. 
+The Dynamo DB API is accessible over HTTP. A client can choose between routing calls to a load balancer that then routes to the most appropriate node or employ a partition aware client library to reduce a hop. 
 
 
 **Partitioning Scheme**
@@ -54,18 +54,50 @@ While replicating, it is taken care that the N nodes correspond to N different p
 
 **Data Versioning**
 
-Uses vector clocks due to lack of a central clock authority.
+Vector clocks are employed for determining causality and concurrency. The **context** returned in the get() call also contains the vector clock along with all existing diverging branches of the object. A subsequent put() call is assumed and expected to resolve any divergent branches by merging the vector clocks appropriately. 
+
+**Execution**
+
+Any node in a Dynamo DB cluster can receive get or put calls for any key. This node then becomes the **coordinator** for the duration of that call. The coordinator initializes a state machine (per call) which tracks communication with other nodes. 
+The communication with other nodes has a **sloppy quorum** approach. 
+A quorum is a means of determining success of a call in a distributed system. There are two parameters R and W. R is the number of nodes that must agree for a read request to succeed and W is the number onodes that must agree for a write request to succeed.
+The sloppiness comes from DynamoDB only considering healthy nodes. So, a standard quorum based system would stall a read if R nodes are not available, DynamoDB proceeds with calling it a success in the interest of latencies and partition tolerance. 
+R and W are tunable parameters. For ex, if one wanted dynamo db to be highly available for writes, W could be set at 1 - with the side effect of introducing more inconsistent data. 
+Also mentioned is the phenomenon of "read repair" - the coordinator in a read request takes it upon itself to send an updated version to all nodes that report a stale version. 
 
 
+**Hinted Handoff**
+
+To guard against temporary network failures, DynamoDB uses Hinted Handoff. To illustrate - say a key K is updated. Key K according to the rules of where keys go should lie in node X. However, node X is experiencing some personal troubles.
+As discussed, all requests must have a coordinator, let's say it's node Y. When node Y tries to reach X, it can't. With hinted handoff
+1. node Y stores what must be sent to X in a separate local data store. 
+2. node Y will also keep checking up on X to see when it comes back up.
+3. node Y will send this data to X once it is available again. 
+
+What if node Y goes down? This information is now only in a local store in node Y. 
+For this, node Y is in it's capacity as coordinator required to perform a durable write on at least one other node. If this is not possible, the write request is a failure. This is when none of the nodes in the preference list for a key are available. This should be a very unlikely scenario and only happen during major outages.
+
+**Permanent Failures**
+
+Scenarios where a node permanently goes down are rare but must be accounted for. Since, all data is replicated across N nodes, there needs to be a synchronization task that detects discrepancies and keeps them all in sync.
+Dynamo uses Merkle Trees for anti-entropy. Merkle trees are normal trees with each node also containing a hash of all of it's children, which in turn contain a hash of all of their own children. 
+Creating these trees is an expensive task but it all pays off in the ease with which one can detect discrepancies. When nodes gossip amongst each other, they're constantly broadcasting the hash of the root of the merkle tree.I f the hashes differ between two nodes - the differing keys are identified and a data transfer takes place.
+
+Merkle Trees are great for synchronization because they reduce the network overhead greatly - both during actual data transfer and the constant discrepancy checks.
+It is important to note that there is one merkle tree per range (per virtual node) maintained by each node.
+
+**Membership**
+
+Since transient failures are quite normal in a DynamoDB cluster, explicit admin actions are required to add or remove a node from the cluster. 
+When a node is added, this node gossips with nodes to announce it's arrival. Token are assigned as per the position of the new node and all the data is moved to the new node in a background process.
 
 
+**Takeways**
 
-
-
-
--------- TBD -----------------------
-
-
+Managing a distributed data storage is hard.
+The tunable nature of DynamoDB with it's three parameters (R, W, N) that make it adaptable to different use cases. 
+The simple as hell interface makes one treat it like one is accessing a slightly sophisticated dictionary while there exists a mammoth system behind it.
+The idea that most commercial system  don't require the levels of consistency and query complexity afforded by a traditional RDBMS and that this simplicity is there to be exploited.
 
 
 
