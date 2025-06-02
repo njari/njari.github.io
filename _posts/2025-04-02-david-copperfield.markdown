@@ -13,6 +13,8 @@ It is no surprise that David Copperfield is semi autobiographical else I'd think
 Aside from my first Dickens, this is also my first audiobook. I've been travelling and I felt that was a practical way to make progress. Richard Armitage really brings the characters to life. He does different voices for different characters and the continuity is maintained throughout. 
 
 
+
+
 __________________________ To be continued ____________________________
 
 
