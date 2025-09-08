@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  "Notes : David Copperfield - Charles Dickens"
+title:  "David Copperfield - Charles Dickens"
 date:   2025-04-02 17:26:31 +0530
 categories: books
 ---

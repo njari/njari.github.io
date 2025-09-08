@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  "Notes : Dynamo DB Paper by Amazon"
+title:  "Dynamo DB Paper by Amazon"
 date:   2025-03-05 11:26:31 +0530
 categories: papers
 ---

@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  "Notes : The Sirens of Titan - Kurt Vonnegut"
+title:  "The Sirens of Titan - Kurt Vonnegut"
 date:   2025-03-03 17:26:31 +0530
 categories: books
 ---
