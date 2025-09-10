@@ -1,7 +1,7 @@
 ---
 layout: post
-title:  "Cryptic measurements like Attention"
-date:   2025-09-08 11:26:31 +0530
+title:  "Sequence to Sequence Modeling - circa 2014 to 2024"
+date:   2025-09-10 11:26:31 +0530
 categories: papers
 ---
 
@@ -29,16 +29,15 @@ When one moves from a single input/single output to a S2S (sequence to sequence)
 - Your inputs can have related bits anywhere in the sequence.
 
 What does one expect from such a model? 
-- Work with inputs of different lengths
-- Recognise and respond to related bits within a sequence. 
+- Work with inputs of arbitrary lengths and return outputs of arbitrary lengths 
+- Recognise relationships within a sequence and respond to the entire sequence
 - be "effective" while doing the above
 
 So what was state of the art for sequence transduction models in 2014? 
 RNNs (Recurrent Neural Network) and the vastly more improved variety of RNNs - LSTMs (Long Short Term Memory) were all over the AI world. 
-Andrej Karpathy has a wonderful blog from 2015 emphasizing how groundbreaking RNNs were. https://karpathy.github.io/2015/05/21/rnn-effectiveness/. This in todays day reads like a historical note. 
+Andrej Karpathy has a wonderful blog from 2015 emphasizing how groundbreaking RNNs were. https://karpathy.github.io/2015/05/21/rnn-effectiveness/. This, today, reads like a historical note. 
 
-
-The key idea for an RNN was to have memory (hidden states) of previous tokens. Tokens are how sequences are broken down into bits. In English, we break sentences down into words with spaces. Tokens in machine learning are similar to words but not exactly as they are chunks optimised for a model's understanding. Token are important not just for RNNs but for all kinds of ML compute.
+The key idea for an RNN was to have memory (hidden states) of previous tokens in the sequence. That is how RNNs recognise relationships and respond to the sequence as a whole. Tokens are how sequences are broken down into bits. In English, we break sentences down into words with spaces. Tokens in machine learning are similar to words but not exactly as they are chunks optimised for a model's understanding. Token are important not just for RNNs but for all kinds of ML compute.
 
 Now,  when an RNN sees an input sequence (I have 2 cats and want one more.), it breaks it down into tokens. We won't pretend to know what this looks like but it will be a vector of arbitrary length 
 [w1, w2, w3 ... wn]. Since the model is looking at a fresh sequence, the hidden state is h0 = 0 (or some other initialization, this whole article is a gross oversimplification). 
@@ -64,32 +63,45 @@ and so on.
 the final output of the model is [y1, y2, y3, ... yk]. This doesnt look like a sensible output but it could read like - 
 
 Me - I have 2 cats and want one more.
-RNN - That sounds lovely! 
+RNN - You'll have three cats then.
 
 Now this looks like a theoretically perfect system. However, there were lots of practical challenges with RNNs. 
 One is that with longer sequences - hn just cant hold enough context for the decoder to generate valuable responses. There is a problem of calculating relatedness between tokens thar are far apart.  
 Second, hn takes longer to calculate with longer sequences. 
-Third, this calculation HAS to be done sequentially. There is no way to paralellize this. And in recent years, we've been using GPUs which are great at performing parallel tasks. Running an RNN on a GPU is an underutilisation. 
+Third, this calculation HAS to be done sequentially. There is no way to paralellize this. And in recent years, we've been using GPUs which are great at performing parallel tasks to optimise all kinds of compute - ml and otherwise. To make RNNs both faster and more GPU friendly means parallelization.
 
-An improvement the basic RNN was the LSTM -- this is an RNN that can decide what information to store and what to toss. It can look at longer sequences but eventually runs into the same problems. 
+An improvement over the basic RNN was the LSTM -- this is an RNN that can decide what information to store and what to toss. It can look at longer sequences but eventually runs into the same problems. 
 
 LSTMs were very  successful (even commercially) as single purpose models where one expected a model to be trained on very specific data and then to be used to predict the same. 
 However, the GPT we know so well now was well underway. 
 
 **GPT - What's that?** 
 
-TBD
+GPT - Generative Pretrained Transformer is a Transformer offshoot. Transformers themselves were demonstrated by Vaswani et al. for language translation tasks. Similar to the RNN described above, the transformer also have an encoder and decoder stack. 
+Even in terms of responsibilities - the encoder understands the input and the decoder produces outputs in an autoregressive manner. What they got rid of is recurrence. Recurrence is what makes this slow and expensive. Recurrence is what makes this sequential. Now, recurrence is what makes relationships between two distant tokens possible in RNNs. How else could we still recognise relationships but do it non sequentially? 
 
+What this paper suggests is we represent the sequence as an embedding vector and calculating how much each embedding "attends" to every other embedding in the input. "Attending" to sth is an arbitrary non commutative function which will be discussed later with all its nitty gritties. 
 
+Does this do the things we were using recurrence for? 
+
+This does preserve relationships between tokens. 
+
+What does it do better than recurrence? 
+This ensures that the computation is more or less constant for all sequence lengths. 
+It is better at calculating long range dependencies, 0 and nth row are compared the same way as (n-1)th and nth row. 
+We can now parallelize and really tap into GPU power.
 
 
 **Elephant in the Room**
 
-
-
-First, we talk about this cryptic measurement called Attention. In layman (and expert) terms, it is a measure of how much a certain part of a sequences relates to another part. Consider this an arbitrary function that outputs the "relatedness" of any two positions in the input. 
+This cryptic measurement called Attention is the core of Transformers. In layman terms, it is a measure of how much a certain part of a sequences relates to another part. 
+So we have embeddings. For each embedding we calculate the following information - 
+- What do I want to know? - Q
+- What do I know? - K
+Then we compute relatedness of what an embedding wants to know with what other embeddings already know to get how much an embedding should attend to the other embeddings.
 In this paper, this is a dot product with extra steps like normalization etc. to keep the numbers sane. 
 
 Why a dot product between two positions reveals the relatedness of two positions is rooted in high school vector math. A dot product is a projection of one vector onto the other and a measure of similarity. The same idea applies here and all sequences are interpreted as vectors. 
-Attention was a concept already widely used in machine learning models pre 2014. 
-This paper explores the possibility of using ONLY attention. 
+
+This is a very rudimentary explanation for what attention is. I will explore this further with a concrete example in another post.
+
