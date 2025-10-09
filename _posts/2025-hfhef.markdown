@@ -1,5 +1,9 @@
- 
- 
+ ---
+layout: post
+title:  "Transformers after stripping away the frills"
+date:   2025-09-10 11:26:31 +0530
+categories: papers
+---
  
 
 
