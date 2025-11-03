@@ -1,4 +1,4 @@
- ---
+---
 layout: post
 title:  "Transformers - the meat minus the math - 1 [Encoders] "
 date:   2025-011-03 11:26:31 +0530
