@@ -11,9 +11,9 @@ categories: papers
 
  
 
- ChatGPT - the well loved and controversial tool that's permeated all online spaces is a a variation on a Transformer (slight). 
- The idea behind Transformers is simple yet powerful - especially coupled with the kind of compute and storage available today. 
-We'll skip most of the math except when its easier to understand the math (this happens). 
+ ChatGPT - the well loved tool that's permeated all online spaces is a variation on a Transformer (slight). 
+ The idea behind Transformers is simple yet powerful - especially coupled with the kind of compute and storage available today.
+Although, transformers are complicated arithmetic algorithms, here I try to skip most of the math (except when its easier to understand the math) and build an intuitive view of what's happening.  
 
 Briefly, the transformer is a stack of encoders followed by a stack of decoders. Encoders take input and produce a context rich representation of it and decoders use this representation to provide an output. 
 
@@ -35,7 +35,7 @@ So instead of splitting by spaces, it looks for subword patterns it has seen bef
 
 ["The", "cat", "decided", "to", "push", "over", "the", "tumbler", "because", "it", "looked", "simply", "irresist", "able", "."]
 
-All these tokens are then mapped to an ID in a nD token vector space where they are clustered together based on "relatedness". For, eg - dogs and cats are going to be closer together than dogs and deer. This happens in the tokenizer and we end up with a list of nD token representations. This is called the input embedding. We're quite close to where StupidBox now knows what we're saying. 
+All these tokens are then mapped to an ID in a vector space where they are clustered together based on "relatedness". For, eg - dogs and cats are going to be closer together than dogs and deer. This happens in the tokenizer and we end up with a list of nD token representations. This is called the input embedding. We're quite close to where StupidBox now knows what we're saying. 
 Say, the output of the tokenizer is 
 
 $$
@@ -103,7 +103,7 @@ $$
 
 
 
-The vectors $$W_q , W_k, W_v$$ are learned vectors and lets accept that $Q1, K1$ and $V1$ are reasonable representations for what v1 contains. Similarly, we will do this for all tokens. Now once we have calculated these values for all the tokens - we can compare them to glean some meaning from it. 
+The vectors $$W_q , W_k, W_v$$ are learned vectors and lets accept that $$Q1, K1$$ and $$V1$$ are reasonable representations for what v1 contains. Similarly, we will do this for all tokens. Now once we have calculated these values for all the tokens - we can compare them to glean some meaning from it. 
 Here, we try to understand the token "it" and its relationship with all other tokens. 
 
 
