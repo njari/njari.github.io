@@ -103,20 +103,17 @@ $$
 
 
 
-The vectors $W_q , W_k, W_v$ are learned vectors and lets accept that $Q1, K1$ and $V1$ are reasonable representations for what v1 contains. Similarly, we will do this for all tokens. Now once we have calculated these values for all the tokens - we can compare them to glean some meaning from it. 
+The vectors $$W_q , W_k, W_v$$ are learned vectors and lets accept that $Q1, K1$ and $V1$ are reasonable representations for what v1 contains. Similarly, we will do this for all tokens. Now once we have calculated these values for all the tokens - we can compare them to glean some meaning from it. 
 Here, we try to understand the token "it" and its relationship with all other tokens. 
 
 
-
-$$
+$$ \\ \\ \\
 V_{it} = (Q_{it} \cdot K_{tumbler}) \, V_{tumbler} 
        + (Q_{it} \cdot K_{cat}) \, V_{cat} 
        + (Q_{it} \cdot K_{push}) \, V_{push} 
        + (Q_{it} \cdot K_{decided}) \, V_{decided} 
        + \dots
-$$
-
-
+$$ \\ \\ \\
 
 
 
