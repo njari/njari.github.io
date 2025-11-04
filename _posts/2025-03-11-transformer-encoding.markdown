@@ -93,11 +93,14 @@ The above table explores the noun - pronoun relationships that exist in the inpu
 StupidBox might look at it as a function.
 
 
-$$ 
-Q1 = W_q.v1
-K1 = W_k.v1
-V1 = W_v.v1
 $$
+\begin{align*}
+Q_1 &= W_q v_1 \\
+K_1 &= W_k v_1 \\
+V_1 &= W_v v_1
+\end{align*}
+$$
+
 
 
 The vectors $W_q , W_k, W_v$ are learned vectors and lets accept that $Q1, K1$ and $V1$ are reasonable representations for what v1 contains. Similarly, we will do this for all tokens. Now once we have calculated these values for all the tokens - we can compare them to glean some meaning from it. 
