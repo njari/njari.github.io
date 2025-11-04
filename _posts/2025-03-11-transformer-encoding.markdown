@@ -91,7 +91,8 @@ What info do I carry?
 
 The above table explores the noun - pronoun relationships that exist in the input. 
 StupidBox might look at it as a function.
-so, 
+
+
 $$ 
 Q1 = W_q.v1
 K1 = W_k.v1
@@ -99,8 +100,10 @@ V1 = W_v.v1
 $$
 
 
-The vectors $ W_q , W_k, W_v $ are learned vectors and lets accept that $ Q1, K1, and V1 are reasonable representations for what v1 contains. Similarly, we will do this for all tokens. Now once we have calculated these values for all the tokens - we can compare them to glean some meaning from it. 
+The vectors $W_q , W_k, W_v$ are learned vectors and lets accept that $Q1, K1$ and $V1$ are reasonable representations for what v1 contains. Similarly, we will do this for all tokens. Now once we have calculated these values for all the tokens - we can compare them to glean some meaning from it. 
 Here, we try to understand the token "it" and its relationship with all other tokens. 
+
+
 
 $$
 V_{it} = (Q_{it} \cdot K_{tumbler}) \, V_{tumbler} 
@@ -109,6 +112,8 @@ V_{it} = (Q_{it} \cdot K_{tumbler}) \, V_{tumbler}
        + (Q_{it} \cdot K_{decided}) \, V_{decided} 
        + \dots
 $$
+
+
 
 
 
@@ -121,7 +126,7 @@ $$
 | others (“the”) | Article, no real semantic weight          | 0.02             | Very minor                         |
 
 
-Hence $ V_it $ strongly suggests it is refers to the tumbler. Hence, everything that related to "tumbler" also relates to "it". This is the contextual meaning we have found here. 
+Hence $V_it$ strongly suggests it is refers to the tumbler. Hence, everything that related to "tumbler" also relates to "it". This is the contextual meaning we have found here. 
 
 Now, StupidBox will evaluate each token against every other token to contextualize this relationship. This is what self-attention is. Mathematically, this is a scalar product of vectors which is a simple operation for StupidBox.
 
