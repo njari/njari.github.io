@@ -1,0 +1,105 @@
+
+
+
+### Introduction 
+
+Crochet is an fabric artform that relies on a hook and yarn and is worked in rows to make various decorative items/toys/garments. 
+Each row is a collection of stitches and there are a few basic stitches. 
+
+- Chain Stitch
+- Slip Stitch 
+- Single Crochet
+- Double Crochet 
+- Treble Crochet 
+
+All other stitches are either variations on these or a composition of the above.
+For instance - single crochet back loop only is a variation of the single crochet.
+and the mesh stitch is a combination of a chain and a double crochet. 
+
+Similarly - there are complex patterns that require rigorous counting across 100s and 1000s of stitches. Practically, it leads to many recountings. 
+There are solutions out there. Most crocheters use "stitch markers" that they pin into - say, every 10th row. This reduces counting since one only needs to count beoynd the last marked stitch but counting is still an important part of the process. 
+
+Also, crocheters love to savour their work and know how long it takes them to work on a certain project. Projects can clock from anywhere within an hour to years depending on the scale and complexity of the pattern and the crocheter. 
+
+
+### Goals
+
+1. Give crocheters an easier time with counting their stitches. 
+- row counting
+- stitch counting
+2. Allow for flow while following a pattern
+-  translate patterns from US -> UK -> symbols to remove friction
+
+
+### User Journeys 
+
+I should be able to create patterns and start projects based on a pattern. 
+The pattern is the "plan". One may make a single pattern in colors and different yarns.
+Structurally - crochet is done row by row. (single panel)
+Hence patterns also will be given row by row. 
+Most times the rows will be repeats - however - there are many cases where each row is unique - for instance, in the case of filet crochet and tapestry patterns. 
+For a first version - a pattern and project are synonymous and a new pattern is a new project. If a user desires to remake a pattern, we can add a duplication option later. 
+
+
+
+
+### Journey no 1 - Writing down a Pattern 
+
+Provide a space for a detailed plan for the project being undertaken.
+
+Meta information one would store - 
+system
+Name, hook size
+yarn used - (list) 
+notes (optional)
+item type - this can be used to give a little graphic for a sweater/top/toy etc
+
+row information
+[ x , y , z ] x n1
+[y , z , x ] x n2
+... 
+
+
+x , y, z are stitches and n1, n2 are the repeats of each row. 
+For now we will focus on single panel patterns. All larger pieces can be broken down into single panel patterns. (even ones worked in the round as one only has to keep track of the rows).
+
+
+### Journey 2 - Using the pattern 
+
+Allow users to go through each row one and mark it as done/undo it.("frogging") One can end at any point in a row. 
+On completing the very last row - one can have a celebratory gif that pops up. 
+
+
+### Journey no 3 - Translating a pattern 
+
+Allow users to create a pattern and translate it to another system. Then use as above. 
+This is a major issue while using traditional patterns because the one you like might be in a different system. There is a mental conversion going on. Also, different systems use the same names to refer to different stitches. 
+Confusing and a problem.
+
+
+### Journey 4 - Analytics 
+
+We will log the hours taken for a certain project (have a pause/play button when you're crocheting). 
+Count how much is frogged and how many stitches did one make. 
+These are statistics to delight the user because everyone cares about the time and effort one puts into their handmade projects.
+
+
+
+
+### Further Ideas.
+
+- Count stitches using a watch app - eliminating the need for the user to update here.
+
+- Create patterns for others to use. 
+
+- Onboard existing pattern creators to provide their patterns in a better format - not just pdfs as they are now.
+
+- Read visual crochet charts and traslate into rows. 
+
+- Tell if a crochet object in a picture is AI or not. A problem the crochet community is dealing with rn. 
+
+- have beginner tutorials that really help you go through the pattern. 
+
+- more analytics - hours logged on a project - hours logged overall 
+
+- rewards - hour based, frogging based, 
