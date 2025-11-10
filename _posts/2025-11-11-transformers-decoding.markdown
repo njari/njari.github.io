@@ -1,7 +1,7 @@
 ---
 layout: post
 title:  "Transformers - the meat minus the math - 2 [Decoders] "
-date:   2025-11-11 11:26:31 +0530
+date:   2025-11-03 11:26:31 +0530
 categories: papers
 ---
 <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
