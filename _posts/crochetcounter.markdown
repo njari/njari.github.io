@@ -7,6 +7,7 @@ Crochet is an fabric artform that relies on a hook and yarn and is worked in row
 Each row is a collection of stitches and there are a few basic stitches. 
 
 - Chain Stitch
+- Skip stitch
 - Slip Stitch 
 - Single Crochet
 - Double Crochet 
@@ -40,7 +41,11 @@ Hence patterns also will be given row by row.
 Most times the rows will be repeats - however - there are many cases where each row is unique - for instance, in the case of filet crochet and tapestry patterns. 
 For a first version - a pattern and project are synonymous and a new pattern is a new project. If a user desires to remake a pattern, we can add a duplication option later. 
 
+Following are 4 typical user journeys. 
 
+## User Sign Up 
+- we'll have a simple username and password system for the time being. 
+- later enhance this with email verification, etc. 
 
 
 ### Journey no 1 - Writing down a Pattern 
@@ -48,7 +53,7 @@ For a first version - a pattern and project are synonymous and a new pattern is 
 Provide a space for a detailed plan for the project being undertaken.
 
 Meta information one would store - 
-system
+nomenclature system
 Name, hook size
 yarn used - (list) 
 notes (optional)
@@ -67,6 +72,7 @@ For now we will focus on single panel patterns. All larger pieces can be broken 
 ### Journey 2 - Using the pattern 
 
 Allow users to go through each row one and mark it as done/undo it.("frogging") One can end at any point in a row. 
+This should be saved and progress can be shown as a bar? 
 On completing the very last row - one can have a celebratory gif that pops up. 
 
 
