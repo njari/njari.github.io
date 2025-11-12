@@ -1,7 +1,7 @@
 ---
 layout: post
 title:  "Transformers - the meat minus the math - 2 [Decoders] "
-date:   2025-11-03 11:26:31 +0530
+date:   2025-11-11 11:26:31 +0530
 categories: papers
 ---
 <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
@@ -21,25 +21,48 @@ This is very succintly put in the the title of the paper that introduced Transfo
 The decoder now employs attention in two varied ways to generate a response. 
 
 The output of the transformer is a a list of tokens and tokens are generated one after another. 
-Each token that is generated should "pay" attention to : 
+Each token that is generated should "attend" (pay attention) to : 
 1. What has been generated before that. This is important for the whole text to make sense. 
 2. The encoders output - i.e. the context rich understanding of the input.
 
 
 Let's extend our example from the previous piece and follow it through the decoder. The transformer is presented with the input statement -
-"The cat decided to push over the tumbler because it looked simply irresistable.". Then the encoder creates a context rich understanding of this input and we have the encoder output which we will refer to as $$ E_output $$. 
+"The cat decided to push over the tumbler because it looked simply irresistable.". Then the encoder creates a context rich understanding of this input and we have the encoder output which we will refer to as $$ E_{\text{output}} $$. 
 
 Now, we enter the decoder. 
-The decoder output is first initialized with a constant <start> token. This is a constant.
+The decoder output is initialized with a constant <start> token. This is a constant.
 
-$$ D_output = [ <start> ]
+$$ D_{\text{output}} = [ <start> ]
 $$
 
 
-Next, $$ D_output$$  goes through the masked self attention layer. This layer looks at all tokens generated in $$D_output$$. This is called "masked" because we must ignore all the tokens that come after the current token. This "masking" is only useful during training since during inference, we don't know the tokens that come after the current token because they have not been generated yet. However, it doesn't hurt during inference and helps to keep the math the same all through. To start with, we only have <start> so the first pass of this layer is trivial. 
+### Masked Self Attention
 
-Next, we go through the cross attention layer. This is where we take into account $$ E_output $$.  
-Now, here we have the following: 
+Next, $$ D_{\text{output}}$$  goes through the masked self attention layer. 
+This layer looks at all tokens generated in $$D_{\text{output}}$$ upto the current token. 
+
+For what it's worth, this is the same as a self-attention layer from the encoder. The layer performs self attention on whatever it has generated till  the current token. To start with, we only have <start> so the first pass of this layer is trivial. 
+
+
+
+## Training and Inference (and Masking)
+
+If it's the same as the encoder layer's self attention, why does it have a fancier name? 
+The masking in this layer is input but serves a different purpose (from what we're discussing). There are two modes of a any machine larning model - training and inference. 
+Training is when we have both the inputs and the outputs and we're trying to get our model to take in inputs and predict the output. To achieve this, we are tweaking our weights - all the W matrices we've seen - till we get it just right (or close enough). 
+During training, since we know the entire output before our model can generate it - we must hide it from that model or it will learn to be a cheat. If it learns to cheat, it's going to perform really well during the tests but be lost when it comes to the real world - where it won't know the output to begin with. 
+
+Once the training is done, we fix the weights to the most optimal values we've found and put it into the real world. The real world is where we do inference. 
+During inference, we don't know the tokens that come after the current token because they have not been generated yet. Masking is nonsensical here. However, it doesn't hurt and helps to keep the math the same all through (why write new equations and create confusion?). 
+
+
+### Cross Attention
+
+Next, we go through the cross attention layer. This is where we take into account $$ E_{\text{output}} $$.  
+What we're saying is that - hey StupidBox, I know you've decided to say something based on what you've already said - but look at what you're responding to first! 
+So StupidBox does what's told and pays attention to the encoder's output (representiation of actual input)
+
+Now, here we have the following equations that show how this works : 
 
 $$
 \begin{align*}
@@ -77,11 +100,24 @@ So, to recap, there is a masked self attention layer and then a cross attention.
 
 
 
+### How do we understand this output? 
+
+The transformer now has an output that is informed by the input's rich context as well as itself. This output is in it's own native tongue - numbers  - how we represent probabilities. 
+But we're expecting text right? Back in the encoder we talked about tokens and token ids which is how StupidBox was translating words to the numbers it needs. 
+So we go about doing the same - in the opposite direction.
+However, each number here is arrived at through so much that we can't really guarantee if it will correspond to a word exactly. So a one-to-one dictionary look up might not be the greatest idea. 
+ Luckily, we do have a massive vector space of all possible tokens and overlay the output onto this and see what's around it. Now, there is a bit of subjectivity here - any word in it's vicinity is probably an okay match but we must select one.
+We can select this token however - few ideas : 
+1. Find the top 10 closest tokens to our output and randomly pick one. 
+2. Always select the 5th closest token. 
+3. Always pick the closest token. 
+4. Find the top 10 tokens and vary the "randomness".
+
+ChatGPT in particular is known to do something like option 4. The variable of randomness is called temperature - a nod to thermodynamic concepts. at 0 temperature, it is a deterministic system and as the temperature increases, the randomness increases too. 
 
 
+### Conclusion 
 
-
-
-
+So here we have it, Stupidbox has learned how to understand and respond to human input and so have we. Cheers.
 
 
