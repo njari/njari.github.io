@@ -35,7 +35,7 @@ Let's extend our example from the discussion on encoders and follow it through t
 
 Now, we enter the decoder. 
 The decoder generates tokens one by one. The first token is fixed as a constant <start> token. There is a corresponding <end> token as well that will be generated when the decoder has "finished".
-So, here is what our decoder output $$ D_{\text{output}} $$ looks like to begin with.  
+So, here is what our decoder output looks like to begin with.  
 
 $$ D_{\text{output}} = [ <start> ]
 $$
@@ -49,7 +49,7 @@ This layer looks at all tokens generated in $$D_{\text{output}}$$ upto the curre
 
 For what it's worth, this is the same as a self-attention layer from the encoder. The layer performs self attention on whatever it has generated till the current token. To start with, we only have <start> so the first pass of this layer is trivial as it will be the same for all inputs.
 
-If it's the same as the encoder layer's self attention, why does it have a fancier name? The masking in this layer is input but serves a different purpose (from what we're discussing). There are two modes of a any machine larning model - training and inference. We are currently discussing inference. The masking is useful in the training phase. However, it is kept in the inference phase to just keep the math the same. Everyone loves simplicity.
+If it's the same as the encoder layer's self attention, why does it have a fancier name? The masking in this layer is important but serves a different purpose (from what we're discussing). There are two modes of a any machine larning model - training and inference. We are currently discussing inference. In a models lifecycle, first it goes through a training phase and then it is used for inference. The masking is useful only in the training phase. However, it is retained in the inference phase to just keep the math the same. Everyone loves simplicity.
 
 
 ### Cross Attention
@@ -62,14 +62,7 @@ Now, here we have the following equations that show how this works :
 
 $$
 \begin{align*}
-E_{\text{output}} &=
-\begin{bmatrix}
-h_{\text{enc},1} \\
-h_{\text{enc},2} \\
-\vdots \\
-h_{\text{enc},n}
-\end{bmatrix},
-\quad h_{\text{enc},i} \in \mathbb{R}^{d_{\text{model}}} \\[1em]
+
 K &= E_{\text{output}} W_k^{(\text{enc})} \\
 V &= E_{\text{output}} W_v^{(\text{enc})} \\[1em]
 Q &= D_{\text{output}} W_q^{(\text{dec})} \\[1em]
@@ -86,19 +79,19 @@ So, to recap, there is a masked self attention layer and then a cross attention.
 
 | Step | Decoder Input So Far                | Masked Self-Attention Can See       | Cross-Attention Attends To (Encoder Context)                                      | Predicted Next Token |
 | ---- | ----------------------------------- | ----------------------------------- | --------------------------------------------------------------------------------- | -------------------- |
-| 1    | `<BOS>`                             | `<BOS>`                             | *The cat decided to push over the tumbler because it looked simply irresistible.* | “It”                 |
-| 2    | `<BOS> It`                          | `<BOS> It`                          | Same full input sequence                                                          | “knocked”            |
-| 3    | `<BOS> It knocked`                  | `<BOS> It knocked`                  | Same full input sequence                                                          | “it”                 |
-| 4    | `<BOS> It knocked it`               | `<BOS> It knocked it`               | Same full input sequence                                                          | “off”                |
-| 5    | `<BOS> It knocked it off`           | `<BOS> It knocked it off`           | Same full input sequence                                                          | “the”                |
-| 6    | `<BOS> It knocked it off the`       | `<BOS> It knocked it off the`       | Same full input sequence                                                          | “table”              |
-| 7    | `<BOS> It knocked it off the table` | `<BOS> It knocked it off the table` | Same full input sequence                                                          | `<EOS>`              |
+| 1    | `<start>`                             | `<start>`                             | *The cat decided to push over the tumbler because it looked simply irresistible.* | “It”                 |
+| 2    | `<start> It`                          | `<start> It`                          | Same full input sequence                                                          | “knocked”            |
+| 3    | `<start> It knocked`                  | `<start> It knocked`                  | Same full input sequence                                                          | “it”                 |
+| 4    | `<start> It knocked it`               | `<start> It knocked it`               | Same full input sequence                                                          | “off”                |
+| 5    | `<start> It knocked it off`           | `<start> It knocked it off`           | Same full input sequence                                                          | “the”                |
+| 6    | `<start> It knocked it off the`       | `<start> It knocked it off the`       | Same full input sequence                                                          | “table”              |
+| 7    | `<start> It knocked it off the table` | `<start> It knocked it off the table` | Same full input sequence                                                          | `<end>`              |
 
 
 
 ### How do we understand this output? 
 
-The transformer now has an output token that is informed by the input's rich context as well as earlier tokens that were generated. This output is in it's own native tongue - numbers  - how we represent probabilities. 
+The transformer now has a single output token that is informed by the input's rich context as well as earlier tokens that were generated. This token is in it's own native tongue - numbers  - how we represent probabilities. 
 But we're expecting text right? Back in the encoder we talked about tokens and token ids which is how StupidBox was translating words to the numbers it needs. 
 So we go about doing the same - in the opposite direction.
 However, each number here is arrived at through so much that we can't really guarantee if it will correspond to a token exactly. So a one-to-one dictionary look up might not be the greatest idea. 
@@ -115,9 +108,9 @@ That is the final output of the transformer.
 
 ### Conclusion 
 
-ChatGPT in partuclar selects the top N tokens and selects one randomly amongst them. Interestingly, they vary the randomness using temperature.
+ChatGPT in particular selects the top N tokens and selects one randomly amongst them. The randomness itself is varied using a measure of temperature - a very intuitive term if you're familiar with thermodynamics.
 This is a way to get wilder or more sober outputs from the same model to suit different purposes. 
- Their API itself has a temperature parameter. To have a fully deterministic output - one can set the temperature to 0, or for more "creative" answers one may increase it. At some point, it will start giving out nonsense because the selected token might be too far from whatthe decoder wants to convey. 
+To have a fully deterministic output - one can set the temperature to 0, or for more "creative" answers one may increase it. At some point, it will start giving out nonsense because the selected token might be too far from what the decoder wants to convey. 
 
 So here we have it, Stupidbox has learned how to understand and respond to human input and so have we. Cheers.
 
