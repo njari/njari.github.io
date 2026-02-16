@@ -4,7 +4,6 @@ title: About
 permalink: /about/
 ---
 
-An ever growing inventory of all that I learn and wonder about. 
-Documenting my pursuits.
+Documenting my pursuits. Follow along. 
 
 
