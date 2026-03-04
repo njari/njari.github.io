@@ -1,8 +1,8 @@
 ---
 layout: post
-title: "Are the MySQL docs lying about isolation levels? 
-date: 2025-01-08
-categories: databases
+title: "Are the MySQL docs lying about isolation levels?"
+date: 2026-03-04 11:26:31 +0530
+categories: testing
 ---
 
 What are isolation levels in relational databases?
