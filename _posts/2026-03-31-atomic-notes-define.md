@@ -72,6 +72,8 @@ This is a work in progress but I'm quite happy with where this has stabilised fo
 
 I am currently developing an agentic (maybe?) application to help myself (and you) write better. It's in it's nascent days and I hope to post about my experiments. The core of this is going to be your own notes and these connections with the end goal of writing pieces that feel like you. 
 
+Follow along if you're keen. :) 
+
 
 
 
