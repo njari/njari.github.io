@@ -50,7 +50,8 @@ These secondary thoughts are more general - in fact I can arrive at these ideas 
 
 This infographic shows how I would structure these in my notes.  
 
-![Facts -> Thoughts](image.png)
+![Facts -> Thoughts]({{ "/assets/atomic-notes-define/image.png" | relative_url }})
+
 
 This reflects how my mind makes connections. These are not obviously connected. For eg - how developers process online discourse is unrelated to this very specific choice made by the PostGres team. But my mind guided me there and hence, I must believe these are related. There is an inherent connection and I will honour that.
 
