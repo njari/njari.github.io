@@ -1,7 +1,14 @@
+---
+layout: post
+title: "A Series Of Silly Questions about Atomic Notes and My Answers in Progress"
+date: 2026-03-30 11:26:31 +0530
+categories: fieldwork
+---
+
 If you've been around the Personal Knowledge Management side of the world - you've heard of atomic notes. I had my first encounter with this concept during college - the first time I tried to use Obisidian. My workflow back then involved a lot of "work" and hence it was a colossal failure. 
 Over time, I have refined how I do this and I believe I've arrived at something that works (for me). Personal knowledge management is first and foremost personal. 
 Here I will try to elaborate on what made me stumble and what my current resolution to this is.
-P.S. Although this is really not about note keeping in Obsidian, this is my application of choice purely because I love that the core of it is just markdown files. There is a sense of security about that and here is a nice note by the creator about Obsidian's philosophy. 
+P.S. Although this is really not about note keeping in Obsidian, it is my application of choice purely because I love that the core of it is just markdown files. There is a sense of security about that and [here is a nice note by the creator about Obsidian's philosophy.](https://stephango.com/file-over-app)
 Let's start with the silly stuff now. 
 
 # What is an atomic note? 
@@ -12,11 +19,11 @@ An atomic note should capture a _single unit of thought_.
 
 Everything beyond this is a digression into people's personal workflows and how they like their folders (or lack of). 
 
-This was too vague a guideline for me because as I sat to write my beautiful atomic notes that are going to grow into my little digital garden like this guy's - I couldn't frame my thoughts into these clean units "units". 
+This was too vague a guideline for me because as I sat to write my beautiful atomic notes that are going to grow into my little digital garden like this guy's - I simply couldn't frame my thoughts into these clean "units". 
 
 ## What is a single unit of thought? 
 
-Say, today I start reading about isolation levels in databases -- is each level a single thought or do they all make a composite atomic thought? Is it even my own thought? Haven't the people making and researching databases been thinking of this all along -- is this theirs? To me, this looks just like information - important but not exactly a thought. 
+Thinking is best described by thinking out loud. Say, today I start reading about isolation levels in databases -- is each level a single thought or do they all make a composite atomic thought? Is it even my own thought? Haven't the people making and researching databases been thinking of this all along -- is this theirs? To me, this looks just like information - important but not exactly a thought. 
 
 Now if I say - "Read Committed is the default isolation level for PostGres databases". Is this a thought or is it a regurgitation of information? 
 
@@ -43,10 +50,9 @@ These secondary thoughts are more general - in fact I can arrive at these ideas 
 
 This infographic shows how I would structure these in my notes.  
 
+![Facts -> Thoughts](image.png)
 
-[[facts to thoughts]]
-
-This reflects how my mind makes connections. These are not obviously connected. For eg - how developers process online discourse is unrelated to this very specific choice made by the PostGres team. But my mind guided me there and hence, I must believe these are related. There is a loose connection and I will honour that.
+This reflects how my mind makes connections. These are not obviously connected. For eg - how developers process online discourse is unrelated to this very specific choice made by the PostGres team. But my mind guided me there and hence, I must believe these are related. There is an inherent connection and I will honour that.
 
 Most days, I will not be sitting and expounding with this kind of depth on a derived fact. That is not something I expect myself to do. But sometimes - the secondary thoughts really hit you and that's when you put them down. 
 
@@ -63,9 +69,8 @@ The most important part of the workflow is YOU. You really are the centre of thi
 
 This is a work in progress but I'm quite happy with where this has stabilised for now. I intend to reflect on this again and trace more changes in an years time. 
 
-I am currently developing an agentic (maybe?) application to help myself (and you) write better. It's in it's nascent days and I hope to post about my experiments. The core of this is going to be your own notes and these connections. The system should reflect you and your voice.  
+I am currently developing an agentic (maybe?) application to help myself (and you) write better. It's in it's nascent days and I hope to post about my experiments. The core of this is going to be your own notes and these connections with the end goal of writing pieces that feel like you. 
 
-Hope this helps. :) 
 
 
 
