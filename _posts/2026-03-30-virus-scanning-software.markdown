@@ -45,16 +45,19 @@ This recent bit of news inspired me to learn more here. Leaving a note on it her
 
 # Mar 2026 - LiteLLM Github Account Takeover
 
-[[Litellm]] is a open source library that is a layer over all other llms to allow applications to be built in an provider agnostic manner. It absorbs all the differences and provides an easy to use abstraction. 
-In terms of popularity - claude code uses it - hence all of us using claude code using it use it too. 
+LiteLLM is a open source library that acts as an abstraction over different LLM providers such that applications can be built in an provider agnostic manner. 
+In terms of popularity - CrewAI, GraphRAG from Microsoft etc all rely on this as a foundational dependency. 
 
-What happened - the primary github account that owns the repository was hacked into.
+How did this start? 
+The primary github account that owns the repository was hacked into.
 
 Next, a new version of the software was released. This release was distributed through the same channels as legitimate releases to everyone using litellm - intentionally or unintentionally. 
 
-This version altered a file that is called just before the python interpreter starts up -- a .pth file. However, due to a little bug in this code, it was discovered before it affected user systems. 
+This version altered a file that is called just before the python interpreter starts up -- a .pth file. However, due to a little bug in this code, it was discovered before it could do its damage by causing the system to crash and alerting devs. 
+When Callum McMahon created a Github Issue for this and the creators ackd it, the attackers flooded the comments such that the signal gets lost in the noise. Interesting tactic, no? 
 
-Read a timestamped account of events here.
-https://cycode.com/blog/lite-llm-supply-chain-attack/
+
+[!Read a timestamped account of events here.](https://cycode.com/blog/lite-llm-supply-chain-attack/)
+
 
 
