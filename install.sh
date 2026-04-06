@@ -13,39 +13,42 @@ echo "────────────────────────�
 echo ""
 
 # ---------------------------------------------------------------------------
-# 1. Install uv if not present
+# 1. Ensure uv is installed
 # ---------------------------------------------------------------------------
 
 if ! command -v uv &>/dev/null; then
     info "Installing uv..."
     curl -LsSf https://astral.sh/uv/install.sh | sh
-    # The uv installer adds ~/.local/bin to PATH for new shells; source it now
     export PATH="$HOME/.local/bin:$PATH"
 fi
 
-UV_VER=$(uv --version 2>&1 | head -1)
-success "uv ready ($UV_VER)"
+UV_VER=$(uv --version 2>&1 | head -1 || true)
+success "uv ready (${UV_VER:-unknown version})"
 
 # ---------------------------------------------------------------------------
-# 2. Install proseoutline as a uv tool
-#    uv will pull Python 3.11 automatically if needed and create an
-#    isolated venv — no manual venv management required.
+# 2. Install or upgrade proseoutline
 # ---------------------------------------------------------------------------
 
-info "Installing proseoutline (uv will fetch Python 3.11 if needed)..."
-uv tool install proseoutline --python 3.11
-success "proseoutline installed"
+if uv tool list 2>/dev/null | grep -q '^proseoutline '; then
+    info "Upgrading proseoutline..."
+    uv tool upgrade proseoutline
+else
+    info "Installing proseoutline..."
+    uv tool install proseoutline --python 3.11
+fi
+
+success "proseoutline ready"
 
 # ---------------------------------------------------------------------------
-# 3. Ensure the uv tools bin is on PATH
+# 3. Ensure PATH is correct
 # ---------------------------------------------------------------------------
 
-TOOLS_BIN=$(uv tool dir --bin 2>/dev/null || echo "$HOME/.local/bin")
+TOOLS_BIN="$(uv tool dir --bin 2>/dev/null || echo "$HOME/.local/bin")"
 
 if [[ ":$PATH:" != *":$TOOLS_BIN:"* ]]; then
     echo ""
-    warn "$TOOLS_BIN is not on your PATH yet."
-    warn "Add this to your ~/.zshrc (or ~/.bashrc) and restart your terminal:"
+    warn "$TOOLS_BIN is not on your PATH."
+    warn "Add this to your shell config (~/.zshrc or ~/.bashrc):"
     echo ""
     echo -e "    ${BOLD}export PATH=\"$TOOLS_BIN:\$PATH\"${RESET}"
     echo ""
@@ -54,9 +57,14 @@ else
 fi
 
 # ---------------------------------------------------------------------------
-# Done
+# 4. Final check
 # ---------------------------------------------------------------------------
 
-echo -e "${GREEN}${BOLD}All done!${RESET} Run ${BOLD}proseoutline${RESET} to launch the app."
-echo ""
+if command -v proseoutline &>/dev/null; then
+    echo -e "${GREEN}${BOLD}All done!${RESET} Run ${BOLD}proseoutline${RESET} to launch."
+else
+    warn "proseoutline is installed but not on PATH yet."
+    warn "Restart your terminal or update PATH."
+fi
 
+echo ""
